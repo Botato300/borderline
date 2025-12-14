@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "eventManager.hpp"
+#include "inputManager.hpp"
 #include "player.hpp"
 #include "raylib/raylib.h"
 
@@ -35,6 +36,7 @@ int main() {
 	HideCursor();
 
 	EventManager eventManager;
+	InputManager inputManager;
 
 	eventManager.addListener("PlayerAttack", onPlayerAttack);
 
@@ -44,23 +46,10 @@ int main() {
 	MapObject objWall({40.0f, 40.0f});
 
 	while (!WindowShouldClose()) {
-		int speed = p1.baseSpeed;
-		if (IsKeyDown(KEY_LEFT_SHIFT)) speed *= 2;
+		inputManager.update(eventManager);
 
-		if (IsKeyPressed(KEY_SPACE)) {
-			std::shared_ptr<PlayerAttack> event = std::make_shared<PlayerAttack>();
-			eventManager.emit("PlayerAttack", event);
-		}
-
-		if (IsKeyDown(KEY_W)) p1.pos.y -= speed;
-		if (IsKeyDown(KEY_S)) p1.pos.y += speed;
-		if (IsKeyDown(KEY_A)) p1.pos.x -= speed;
-		if (IsKeyDown(KEY_D)) p1.pos.x += speed;
-
-		if (IsKeyDown(KEY_UP)) p2.pos.y -= 5.0f;
-		if (IsKeyDown(KEY_DOWN)) p2.pos.y += 5.0f;
-		if (IsKeyDown(KEY_LEFT)) p2.pos.x -= 5.0f;
-		if (IsKeyDown(KEY_RIGHT)) p2.pos.x += 5.0f;
+		p1.update(inputManager.statePlayer1);
+		p2.update(inputManager.statePlayer2);
 
 		BeginDrawing();
 		ClearBackground(BLACK);
