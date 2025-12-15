@@ -5,20 +5,14 @@
 #include <string>
 #include <unordered_map>
 
-struct Event {
-	virtual ~Event() = default;
-};
-
-struct PlayerAttack : Event {
-	int playerid = 0;
-	int damage = 0;
-};
+#include "eventData.hpp"
+#include "eventType.hpp"
 
 class EventManager {
    private:
-	std::unordered_map<std::string, std::vector<std::function<void(std::shared_ptr<Event>)>>> events;
+	std::unordered_map<EventType, std::vector<std::function<void(std::shared_ptr<Event>)>>> events;
 
    public:
-	void addListener(std::string, std::function<void(std::shared_ptr<Event>)>);
-	void emit(const std::string, std::shared_ptr<Event>);
+	void addListener(EventType, std::function<void(std::shared_ptr<Event>)>);
+	void emit(EventType, std::shared_ptr<Event>);
 };

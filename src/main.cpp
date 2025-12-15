@@ -1,24 +1,11 @@
 #include <iostream>
 
 #include "eventManager.hpp"
+#include "eventType.hpp"
 #include "inputManager.hpp"
+#include "mapObject.hpp"
 #include "player.hpp"
 #include "raylib/raylib.h"
-
-class MapObject {
-   public:
-	Vector2 pos = {0.0f, 0.0f};
-	bool hasCollision = false;
-
-	MapObject(Vector2 pos, bool hasCollision = false) {
-		this->pos = pos;
-		this->hasCollision = hasCollision;
-	}
-
-	void render() {
-		DrawRectangleLines(pos.x, pos.y, 800 - 80, 600 - 80, RED);
-	}
-};
 
 void onPlayerAttack(std::shared_ptr<Event> e) {
 	auto attackEvent = std::dynamic_pointer_cast<PlayerAttack>(e);
@@ -38,28 +25,36 @@ int main() {
 	EventManager eventManager;
 	InputManager inputManager;
 
-	eventManager.addListener("PlayerAttack", onPlayerAttack);
-
 	Player p1({80.0f, 80.0f}, LIME);
 	Player p2({SCREEN_WIDTH - 150.0f, SCREEN_HEIGHT - 150.0f}, VIOLET);
 
-	MapObject objWall({40.0f, 40.0f});
+	MapObject wall({40.0f, 40.0f}, true);
+
+	eventManager.addListener(EventType::PLAYER_ATTACK, onPlayerAttack);
 
 	while (!WindowShouldClose()) {
-		inputManager.update(eventManager);
+		inputManager.update();
 
 		p1.update(inputManager.statePlayer1);
 		p2.update(inputManager.statePlayer2);
 
+		if (inputManager.statePlayer1.attack) {
+			std::shared_ptr<PlayerAttack> eventData = std::make_shared<PlayerAttack>();
+			eventData->damage = 999;
+			eventData->playerid = 1;
+			eventManager.emit(EventType::PLAYER_ATTACK, eventData);
+		}
+
 		BeginDrawing();
 		ClearBackground(BLACK);
 
-		objWall.render();
+		DrawText("Borderline!", 100, 200, 40, LIGHTGRAY);
+
+		wall.render();
 		p1.render();
 		p2.render();
 
 		DrawFPS(5, 5);
-		DrawText("Borderline!", 100, 200, 40, LIGHTGRAY);
 
 		EndDrawing();
 	}

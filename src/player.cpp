@@ -1,6 +1,6 @@
 #include "player.hpp"
 
-#include "inputManager.hpp"
+#include "playerState.hpp"
 #include "raylib/raylib.h"
 
 Player::Player(Vector2 pos, Color color) {
