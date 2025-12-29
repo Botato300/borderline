@@ -1,5 +1,6 @@
 CXX = g++
-CXXFLAGS = -Wall -I include
+CXXFLAGS_RELEASE = -Wall -I include
+CXXFLAGS_DEBUG = -Wall -g -I include
 LDFLAGS = -L lib/raylib -lraylib -lgdi32 -lwinmm 
 
 NAME = borderline
@@ -17,10 +18,16 @@ endif
 
 BIN = $(DIST_DIR)/$(NAME)$(EXT)
 
-.PHONY: all run clean
+CXXFLAGS = $(CXXFLAGS_RELEASE)
+
+.PHONY: all debug run clean
 
 all: $(BIN)
-	@echo "[INFO]: There is nothing to update, everything is ok! :)"
+	@echo "[INFO]: Build release completed"
+
+debug: CXXFLAGS = $(CXXFLAGS_DEBUG)
+debug: $(BIN)
+	@echo "[INFO]: Build debug completed"
 
 $(BIN): $(OBJECTS) | $(DIST_DIR)
 	$(CXX) $^ $(LDFLAGS) -o $@
