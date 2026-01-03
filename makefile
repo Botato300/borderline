@@ -1,6 +1,6 @@
 CXX = g++
-CXXFLAGS_RELEASE = -Wall -I include
-CXXFLAGS_DEBUG = -Wall -g -I include
+CXXFLAGS_RELEASE = -I include
+CXXFLAGS_DEBUG = -Wall -Wextra -Wpedantic -Wnon-virtual-dtor -g -isystem include
 LDFLAGS = -L lib/raylib -lraylib -lgdi32 -lwinmm 
 
 NAME = borderline
