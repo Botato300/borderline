@@ -9,8 +9,19 @@ MapObject::MapObject(Vector2 pos, bool collision) : GameObject(pos, collision) {
 }
 
 void MapObject::render() {
-	DrawRectangleLines(pos.x, pos.y, 800 - 80, 600 - 80, RED);
+	DrawRectangleLines(pos.x - (width / 2), pos.y - (height / 2), width, height, RED);
 }
 
 void MapObject::update() {
+}
+
+Rectangle MapObject::getHitbox() {
+	Rectangle hitbox = {};
+
+	hitbox.width = width;
+	hitbox.height = height;
+	hitbox.x = pos.x - (width / 2);
+	hitbox.y = pos.y - (height / 2);
+
+	return hitbox;
 }
