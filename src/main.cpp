@@ -5,6 +5,7 @@
 #include "inputManager.hpp"
 #include "mapObject.hpp"
 #include "player.hpp"
+#include "playerCamera.hpp"
 #include "raylib/raylib.h"
 
 void onPlayerAttack(std::shared_ptr<Event> e) {
@@ -15,10 +16,9 @@ void onPlayerAttack(std::shared_ptr<Event> e) {
 }
 
 int main() {
-	const int SCREEN_WIDTH = 800;
-	const int SCREEN_HEIGHT = 600;
+	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 
-	InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Borderline");
+	InitWindow(1280, 720, "Borderline");
 	SetTargetFPS(60);
 	HideCursor();
 
@@ -26,13 +26,20 @@ int main() {
 	InputManager inputManager;
 
 	Player p1({80.0f, 80.0f}, LIME);
-	Player p2({SCREEN_WIDTH - 150.0f, SCREEN_HEIGHT - 150.0f}, VIOLET);
+	Player p2({200.0f, 200.0f}, VIOLET);
 
-	MapObject wall({40.0f, 40.0f}, true);
+	MapObject wall({0.0f, 0.0f}, true);
+
+	PlayerCamera camera;
+	camera.center();
 
 	eventManager.addListener(EventType::PLAYER_ATTACK, onPlayerAttack);
 
 	while (!WindowShouldClose()) {
+		if (IsWindowResized()) {
+			camera.center();
+		}
+
 		inputManager.update();
 
 		p1.update(inputManager.statePlayer1);
@@ -48,13 +55,21 @@ int main() {
 		BeginDrawing();
 		ClearBackground(BLACK);
 
-		DrawText("Borderline!", 100, 200, 40, LIGHTGRAY);
+		DrawText("Borderline!", 100, 680, 30, LIGHTGRAY);
+
+		BeginMode2D(camera.get());
+
+		if (inputManager.statePlayer1.attack) {
+			DrawLineBezier(p1.pos, p2.pos, 3.0f, p1.color);
+		}
 
 		wall.render();
 		p1.render();
 		p2.render();
 
-		DrawFPS(5, 5);
+		EndMode2D();
+
+		DrawFPS(25, 20);
 
 		EndDrawing();
 	}

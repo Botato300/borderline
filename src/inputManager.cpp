@@ -6,8 +6,6 @@ void InputManager::update() {
 	statePlayer1.direction = {0, 0};
 	statePlayer2.direction = {0, 0};
 
-	statePlayer1.attack = false;
-
 	statePlayer1.sprint = IsKeyDown(KEY_LEFT_SHIFT);
 	statePlayer2.sprint = IsKeyDown(KEY_SPACE);
 
@@ -21,5 +19,5 @@ void InputManager::update() {
 	if (IsKeyDown(KEY_LEFT)) statePlayer2.direction.x -= 1;
 	if (IsKeyDown(KEY_RIGHT)) statePlayer2.direction.x += 1;
 
-	if (IsKeyPressed(KEY_E)) statePlayer1.attack = true;
+	if (IsKeyReleased(KEY_E)) statePlayer1.attack = !statePlayer1.attack;
 }
