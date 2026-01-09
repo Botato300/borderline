@@ -3,7 +3,7 @@ Borderline is an online videogame where two players leave trails of light as the
 Written in **C++** and uses the **raylib** library.
 
 ## Requirements for development
-- MinGW G++ (C++ compiler) version 13.0.0 or greater
+- MinGW G++ (C++ compiler) version 15.0.0 or greater, compatible with the **C++26** standard
 - Make version 4.0.0 or greater
 - Windows or Linux operating system
 

@@ -1,10 +1,10 @@
 CXX = g++
-CXXFLAGS_RELEASE = -I include
-CXXFLAGS_DEBUG = -Wall -Wextra -Wpedantic -Wnon-virtual-dtor -g -isystem include
+CXXFLAGS_RELEASE = -std=c++26 -I include
+CXXFLAGS_DEBUG = -std=c++26 -Wall -Wextra -Wpedantic -Wnon-virtual-dtor -g -isystem include
 LDFLAGS = -L lib/raylib -lraylib -lgdi32 -lwinmm 
 
 NAME = borderline
-EXT_FILENAME =
+EXT =
 SOURCE_DIR = src
 BUILD_DIR = build
 DIST_DIR = dist
@@ -42,7 +42,7 @@ $(DIST_DIR):
 
 run: $(BIN)
 	@echo "[INFO]: Running $(BIN)"
-	@./$(BIN)
+	@cd $(DIST_DIR) && ./$(NAME)$(EXT)
 
 clean:
 	@rm -rf $(BUILD_DIR) $(DIST_DIR)
