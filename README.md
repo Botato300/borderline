@@ -5,7 +5,7 @@ Written in **C++** and uses the **raylib** library.
 ## Requirements for development
 - MinGW G++ (C++ compiler) version 15.0.0 or greater, compatible with the **C++26** standard
 - Make version 4.0.0 or greater
-- Windows or Linux operating system
+- Windows or Linux operating system (x86_64 / amd64)
 
 ## How to build
 It's very easy, because it uses the make build system. Just run these commands in your terminal:
