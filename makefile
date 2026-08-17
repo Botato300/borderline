@@ -1,7 +1,6 @@
 CXX = g++
 CXXFLAGS_RELEASE = -std=c++26 -I include
 CXXFLAGS_DEBUG = -std=c++26 -Wall -Wextra -Wpedantic -Wnon-virtual-dtor -g -isystem include
-LDFLAGS = -L lib/raylib -lraylib -lgdi32 -lwinmm 
 
 NAME = borderline
 EXT =
@@ -14,6 +13,9 @@ OBJECTS := $(patsubst $(SOURCE_DIR)/%.cpp,$(BUILD_DIR)/%.o,$(SOURCES))
 
 ifeq ($(OS),Windows_NT)
     EXT = .exe
+	LDFLAGS = -L lib/raylib/win -lraylib -lgdi32 -lwinmm 
+else 
+	LDFLAGS = -L lib/raylib/linux -lraylib -lGL -lm -lpthread -ldl -lrt -lX11
 endif
 
 BIN = $(DIST_DIR)/$(NAME)$(EXT)
