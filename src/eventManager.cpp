@@ -6,7 +6,7 @@
 #include <unordered_map>
 
 #include "eventType.hpp"
-#include "eventdata.hpp"
+#include "eventManager.hpp"
 
 void EventManager::addListener(EventType eventType, std::function<void(std::shared_ptr<Event>)> callback) {
 	this->events[eventType].push_back(callback);
